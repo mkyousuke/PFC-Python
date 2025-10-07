@@ -37,10 +37,17 @@ Un petit projet **débutant** en Python qui joue à *Pierre‑Feuille‑Ciseaux*
 ## 🚀 Lancer le projet
 > Prérequis : **Python 3.10+** — aucune dépendance externe.
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
+
+1. Se rendre à la racine du dossier du projet
+2. Ouvrir un terminal 
+3. Taper la commande suivante : 
+
+```bash 
 python main.py
+```
+ou sur macOS 
+```bash 
+python3 main.py
 ```
 
 ---
