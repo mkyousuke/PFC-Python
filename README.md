@@ -2,11 +2,11 @@
 
 Un petit projet **débutant** en Python qui joue à *Pierre‑Feuille‑Ciseaux* dans le terminal — clair, simple, efficace.
 
-> 🎯 Objectif : le **premier à 3 points** gagne. Tapez `stop` à tout moment pour quitter.
+> Objectif : le **premier à 3 points** gagne. Tapez `stop` à tout moment pour quitter.
 
 ---
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 - Interface terminal soignée avec **emojis** (🪦 pierre · 🧻 feuille · ✂️ ciseaux)
 - **Score en direct**, numéro de manche, et **arrêt** avec `stop`
 - **Règles** intégrées via le menu
@@ -14,7 +14,7 @@ Un petit projet **débutant** en Python qui joue à *Pierre‑Feuille‑Ciseaux*
 
 ---
 
-## 🗂️ Arborescence
+## Arborescence
 ```
 .
 ├── main.py
@@ -34,7 +34,7 @@ Un petit projet **débutant** en Python qui joue à *Pierre‑Feuille‑Ciseaux*
 
 ---
 
-## 🚀 Lancer le projet
+## Lancer le projet
 > Prérequis : **Python 3.10+** — aucune dépendance externe.
 
 
@@ -52,23 +52,24 @@ python3 main.py
 
 ---
 
-## 📜 Règles (rappel)
+## Règles (rappel)
 - **pierre** bat **ciseaux**
 - **feuille** bat **pierre**
 - **ciseaux** bat **feuille**
 
 ---
 
-## 💡 Astuces
+## Astuces
 - Entrez `pierre`, `feuille` ou `ciseaux` (majuscules/espaces ignorés)
 - Tapez `stop` pour quitter proprement
 
 ---
 
-## 🧰 Personnalisation
+## Personnalisation
 - Changez l’objectif de victoires dans `src/game/game.py` (`objectif_victoires = 3`)
 - Modifiez les emojis / libellés dans `src/game/game.py` (`EMOJIS = {...}`)
 
 ---
 
-Fait avec ❤️ pour apprendre, s’amuser et progresser en Python.
+Fait par : 
+Nathan Toubalem & Maxime Loprin
