@@ -17,10 +17,19 @@ Un petit projet **débutant** en Python qui joue à *Pierre‑Feuille‑Ciseaux*
 ## 🗂️ Arborescence
 ```
 .
-├── main.py         # Point d’entrée (menu + navigation)
-├── menu.py         # Affichage du menu et des règles
-├── game.py         # Boucle de jeu & gestion du score
-└── logic.py        # Logique: comparer les choix (gagne/perd/égalité)
+├── main.py
+├── README.md
+└── src/
+    ├── __init__.py
+    ├── game/
+    │   ├── __init__.py
+    │   └── game.py          # Boucle de jeu & gestion du score
+    ├── logic/
+    │   ├── __init__.py
+    │   └── logic.py         # Logique: comparer les choix (gagne/perd/égalité)
+    └── menu/
+        ├── __init__.py
+        └── menu.py          # Affichage du menu et des règles
 ```
 
 ---
@@ -50,8 +59,8 @@ python main.py
 ---
 
 ## 🧰 Personnalisation
-- Changez l’objectif de victoires dans `game.py` (`objectif_victoires = 3`)
-- Modifiez les emojis / libellés dans `game.py` (`EMOJIS = {...}`)
+- Changez l’objectif de victoires dans `src/game/game.py` (`objectif_victoires = 3`)
+- Modifiez les emojis / libellés dans `src/game/game.py` (`EMOJIS = {...}`)
 
 ---
 
