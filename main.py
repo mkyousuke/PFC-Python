@@ -1,18 +1,16 @@
-# main.py — boucle menu + jeu (débutant)
-from game import play_game
-from menu import afficher_menu, lire_choix, afficher_regles
+from src.menu.menu import afficher_menu, afficher_regles, lire_choix
+from src.game.game import jouer as play_game  
 
 def main():
     while True:
         afficher_menu()
         action = lire_choix()
-
         if action == "jouer":
             play_game()  
         elif action == "regles":
-            afficher_regles() 
-        else: 
-            print("\nÀ bientôt !\n")
+            afficher_regles()
+        elif action == "quitter":
+            print("À bientôt ! 👋")
             break
 
 if __name__ == "__main__":

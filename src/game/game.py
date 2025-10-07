@@ -1,5 +1,5 @@
 import random
-from logic import comparer
+from src.logic.logic import comparer
 
 RESET  = "\033[0m"
 VERT   = "\033[38;5;46m"    
