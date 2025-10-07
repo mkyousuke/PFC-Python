@@ -20,7 +20,7 @@ def jouer():
     score_ordi = 0
     egalites = 0
     manches_jouees = 0
-    objectif_victoires = 3  # premier à 3
+    objectif_victoires = 3  
 
     print("\nBienvenue dans Pierre-Feuille-Ciseaux ! 🎮 (premier à 3 points)")
     print("Tape 'stop' à tout moment pour quitter.\n")
