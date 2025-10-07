@@ -1,13 +1,18 @@
-# game.py
 import random
 from logic import comparer
 
+RESET  = "\033[0m"
+VERT   = "\033[38;5;46m"    
+ROUGE  = "\033[38;5;196m"  
+ORANGE = "\033[38;5;208m"   
+
 EMOJIS = {"pierre": "🪦", "feuille": "🧻", "ciseaux": "✂️"}
+
 
 def jouer():
     """
     Jeu de Pierre-Feuille-Ciseaux : le premier à 3 victoires gagne.
-    Affiche les emojis, le numéro de manche et le score en direct.
+    Affiche les émojis, le numéro de manche et le score en direct.
     """
     choix_possibles = ["pierre", "feuille", "ciseaux"]
 
@@ -15,9 +20,9 @@ def jouer():
     score_ordi = 0
     egalites = 0
     manches_jouees = 0
-    objectif_victoires = 3  
+    objectif_victoires = 3  # premier à 3
 
-    print("Bienvenue dans Pierre-Feuille-Ciseaux ! 🎮 (premier à 3 points)")
+    print("\nBienvenue dans Pierre-Feuille-Ciseaux ! 🎮 (premier à 3 points)")
     print("Tape 'stop' à tout moment pour quitter.\n")
 
     while score_joueur < objectif_victoires and score_ordi < objectif_victoires:
@@ -28,7 +33,7 @@ def jouer():
         joueur = input("> ").strip().lower()
 
         if joueur == "stop":
-            print("\nPartie interrompue par le joueur.")
+            print("\nPartie interrompue par le joueur.\n")
             break
 
         if joueur not in choix_possibles:
@@ -40,29 +45,31 @@ def jouer():
 
         resultat = comparer(joueur, ordi)
         if resultat == "egalite":
-            print("Égalité 🤝")
+            print(ORANGE + "\nÉgalité 🤝" + RESET)
             egalites += 1
         elif resultat == "gagne":
-            print("Tu gagnes cette manche ! 🎉")
+            print(VERT + "\nTu gagnes cette manche ! 🎉" + RESET)
             score_joueur += 1
         else:
-            print("Tu perds cette manche 😢")
+            print(ROUGE + "\nTu perds cette manche 😢" + RESET)
             score_ordi += 1
 
-        print(f"Score actuel → Toi {score_joueur} - Ordi {score_ordi} | Égalités : {egalites}\n")
+        print(f"\nScore → Toi {score_joueur} - Ordi {score_ordi} | Égalités : {egalites}\n")
 
-    print("\n=== Fin de la partie ===")
+    print("=== Fin de la partie ===")
     print(f"Résultat final : Toi {score_joueur} - Ordi {score_ordi} | Égalités : {egalites}")
 
     if score_joueur >= objectif_victoires:
-        print("🎉 Bravo, tu remportes la partie !")
+        print(VERT + "🎉 Bravo, tu remportes la partie !" + RESET)
     elif score_ordi >= objectif_victoires:
-        print("🤖 L'ordinateur gagne la partie !\n😢 Bien joué quand même !")
+        print(ROUGE + "🤖 L'ordinateur gagne la partie !\n😢 Bien joué quand même !" + RESET)
     else:
-        print("Partie interrompue avant la fin.")
+        print(ORANGE + "Partie interrompue avant la fin." + RESET)
+
 
 def play_game():
     jouer()
+
 
 if __name__ == "__main__":
     play_game()
