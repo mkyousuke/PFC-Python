@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pierre • Feuille • Ciseaux — Web</title>
+  <link rel="stylesheet" href="/static/style.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -11,49 +12,136 @@
   <main class="wrap">
     <header class="header">
       <h1>🪦🧻✂️ Pierre • Feuille • Ciseaux</h1>
-      <p class="soustitre">Interface web simple, logique Python existante</p>
+      <p class="soustitre">Le premier à 3 points gagne la partie</p>
     </header>
 
     <section class="carte verre">
       <p class="hint">Choisissez une option :</p>
-      <form class="boutons" method="post" action="{{ url_for('play') }}">
-        <button class="btn" type="submit" name="choix" value="pierre" {% if termine %}disabled{% endif %}>🪦 Pierre</button>
-        <button class="btn" type="submit" name="choix" value="feuille" {% if termine %}disabled{% endif %}>🧻 Feuille</button>
-        <button class="btn" type="submit" name="choix" value="ciseaux" {% if termine %}disabled{% endif %}>✂️ Ciseaux</button>
-      </form>
+      <div class="boutons">
+        <button class="btn" data-choix="pierre">🪦 Pierre</button>
+        <button class="btn" data-choix="feuille">🧻 Feuille</button>
+        <button class="btn" data-choix="ciseaux">✂️ Ciseaux</button>
+      </div>
 
-      {% set final_class = 'win' if last_resultat == 'gagne' else 'lose' if last_resultat == 'perd' else 'draw' if last_resultat == 'egalite' else '' %}
-      {% set final_text = '✅ Vous avez gagné !' if last_resultat == 'gagne' else '❌ Vous avez perdu.' if last_resultat == 'perd' else '🤝 Égalité.' if last_resultat == 'egalite' else 'Cliquez pour jouer !' %}
-
-      <div class="resultats">
-        <div class="ligne"><span>Vous :</span><strong>{{ last_joueur or '–' }}</strong></div>
-        <div class="ligne"><span>Ordinateur :</span><strong>{{ last_ordi or '–' }}</strong></div>
-        <div class="ligne final {{ final_class }}">{{ final_text }}</div>
+      <div class="resultats" id="zone-resultats">
+        <div class="ligne"><span>Vous :</span><strong id="choix-joueur">–</strong></div>
+        <div class="ligne"><span>Ordinateur :</span><strong id="choix-ordi">–</strong></div>
+        <div class="ligne final" id="texte-final">Cliquez pour jouer !</div>
       </div>
 
       <div class="scores">
-        <div class="score">Vous <span>{{ score_joueur }}</span></div>
-        <div class="score">Égalités <span>{{ egalites }}</span></div>
-        <div class="score">Ordi <span>{{ score_ordi }}</span></div>
+        <div class="score">Vous <span id="score-joueur">0</span></div>
+        <div class="score">Égalités <span id="score-egalite">0</span></div>
+        <div class="score">Ordi <span id="score-ordi">0</span></div>
       </div>
 
       <div class="actions">
-        <form method="post" action="{{ url_for('reset') }}">
-          <button class="btn secondaire" type="submit">🔁 Réinitialiser</button>
-        </form>
-        <form method="post" action="{{ url_for('toggle_regles') }}">
-          <button class="btn secondaire" type="submit">📖 Règles</button>
-        </form>
+        <button id="btn-reset" class="btn secondaire">Réinitialiser</button>
+        <button id="btn-regles" class="btn secondaire">Règles</button>
       </div>
 
-      {% if regles %}
-      <pre class="regles verre">{{ regles }}</pre>
-      {% endif %}
+      <pre class="regles verre" id="bloc-regles" hidden></pre>
     </section>
 
     <footer class="footer">
-      <small>Règle “premier à 3 points” côté serveur. Pas de JavaScript.</small>
+      <small> </small>
     </footer>
   </main>
+
+  <script>
+  const boutons = document.querySelectorAll('.btn[data-choix]');
+  const choixJoueur = document.getElementById('choix-joueur');
+  const choixOrdi = document.getElementById('choix-ordi');
+  const texteFinal = document.getElementById('texte-final');
+  const scoreJoueur = document.getElementById('score-joueur');
+  const scoreEgalite = document.getElementById('score-egalite');
+  const scoreOrdi = document.getElementById('score-ordi');
+  const btnReset = document.getElementById('btn-reset');
+  const btnRegles = document.getElementById('btn-regles');
+  const blocRegles = document.getElementById('bloc-regles');
+
+  async function syncState() {
+    const r = await fetch('/state');
+    const s = await r.json();
+    scoreJoueur.textContent = s.score_joueur;
+    scoreEgalite.textContent = s.egalites;
+    scoreOrdi.textContent = s.score_ordi;
+    if (s.termine) lockGame();
+  }
+
+  function lockGame() {
+    boutons.forEach(b => b.disabled = true);
+    texteFinal.textContent = '🏁 Partie terminée — cliquez sur Réinitialiser.';
+    texteFinal.classList.remove('win','lose','draw');
+  }
+
+  function majScores(s) {
+    scoreJoueur.textContent = s.joueur;
+    scoreEgalite.textContent = s.egalites;
+    scoreOrdi.textContent = s.ordi;
+  }
+
+  boutons.forEach(b => {
+    b.addEventListener('click', async () => {
+      const choix = b.dataset.choix;
+      texteFinal.classList.remove('win', 'lose', 'draw');
+      texteFinal.textContent = '...';
+      try {
+        const res = await fetch('/play', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ choix })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          texteFinal.textContent = data.erreur || 'Erreur.';
+          if (data.termine) lockGame();
+          return;
+        }
+        choixJoueur.textContent = data.joueur;
+        choixOrdi.textContent = data.ordi;
+        if (data.resultat === 'gagne') {
+          texteFinal.textContent = '✅ Vous avez gagné !';
+          texteFinal.classList.add('win');
+        } else if (data.resultat === 'perd') {
+          texteFinal.textContent = '❌ Vous avez perdu.';
+          texteFinal.classList.add('lose');
+        } else {
+          texteFinal.textContent = '🤝 Égalité.';
+          texteFinal.classList.add('draw');
+        }
+        majScores(data.score);
+        if (data.termine) lockGame();
+      } catch (e) {
+        texteFinal.textContent = 'Erreur réseau.';
+      }
+    });
+  });
+
+  btnReset.addEventListener('click', async () => {
+    await fetch('/reset', { method: 'POST' });
+    scoreJoueur.textContent = '0';
+    scoreEgalite.textContent = '0';
+    scoreOrdi.textContent = '0';
+    choixJoueur.textContent = '–';
+    choixOrdi.textContent = '–';
+    texteFinal.textContent = 'Cliquez pour jouer !';
+    texteFinal.classList.remove('win', 'lose', 'draw');
+    boutons.forEach(b => b.disabled = false);
+  });
+
+  btnRegles.addEventListener('click', async () => {
+    if (!blocRegles.hasAttribute('hidden')) {
+      blocRegles.setAttribute('hidden', '');
+      return;
+    }
+    const r = await fetch('/regles');
+    const d = await r.json();
+    blocRegles.textContent = d.regles || '';
+    blocRegles.removeAttribute('hidden');
+  });
+
+  syncState();
+  </script>
 </body>
 </html>
