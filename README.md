@@ -2,7 +2,7 @@
 
 Un petit projet **débutant** en Python qui joue à *Pierre‑Feuille‑Ciseaux* dans le terminal — clair, simple, efficace.
 
-> Nouveau : une **mini interface PyGame** avec trois gros boutons gris pour cliquer comme un vrai débutant. Pour l'essayer : `python -m src.gui.app`.
+> Nouveau : une **interface PyGame colorée** avec de grands visuels pour pierre, feuille et ciseaux. Pour l'essayer : `python -m src.gui.app`.
 
 > Objectif : le **premier à 3 points** gagne. Tapez `stop` à tout moment pour quitter.
 
@@ -28,7 +28,7 @@ Un petit projet **débutant** en Python qui joue à *Pierre‑Feuille‑Ciseaux*
     │   └── game.py          # Boucle de jeu & gestion du score
     ├── gui/
     │   ├── __init__.py
-    │   └── app.py           # Interface PyGame toute simple
+    │   └── app.py           # Interface PyGame avec visuels et score
     ├── logic/
     │   ├── __init__.py
     │   └── logic.py         # Logique: comparer les choix (gagne/perd/égalité)
