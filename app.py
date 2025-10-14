@@ -57,19 +57,17 @@ def state():
 
 @app.route("/regles")
 def regles():
-    if afficher_regles_fn:
-        s = io.StringIO()
-        with contextlib.redirect_stdout(s):
-            afficher_regles_fn()
-        txt = s.getvalue().strip()
-        return jsonify({"regles": txt})
-    fallback = (
-        "— RÈGLES —\n"
-        "• pierre bat ciseaux\n"
-        "• feuille bat pierre\n"
-        "• ciseaux bat feuille\n"
-    )
-    return jsonify({"regles": fallback})
+    # Remplacement de l'ancienne logique pour un affichage HTML propre
+    regles_html = """
+        <h2> RÈGLES DU JEU </h2>
+        <ul>
+            <li>La pierre bat les ciseaux</li>
+            <li>La feuille bat la pierre</li>
+            <li>Les ciseaux battent la feuille</li>
+        </ul>
+        <p>Le premier joueur à <strong>3 points</strong> gagne la partie.</p>
+    """
+    return jsonify({"regles": regles_html})
 
 @app.route("/play", methods=["POST"])
 def play():

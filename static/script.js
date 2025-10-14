@@ -141,7 +141,7 @@ btnRegles.addEventListener('click', async () => {
   }
   const r = await fetch('/regles');
   const d = await r.json();
-  blocRegles.textContent = d.regles || '';
+  blocRegles.innerHTML = d.regles || '';
   blocRegles.removeAttribute('hidden');
 });
 
