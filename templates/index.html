@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pierre • Feuille • Ciseaux — Web</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* Ajout d'un style pour le canvas des confettis */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* Permet de cliquer à travers */
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti-canvas"></canvas>
+  <div class="bg"></div>
+  <main class="wrap">
+    <header class="header">
+      <h1>🪦🧻✂️ Pierre • Feuille • Ciseaux</h1>
+      <p class="soustitre">Le premier à 3 points gagne la partie</p>
+    </header>
+
+    <section class="carte verre">
+      <p class="hint">Choisissez une option :</p>
+      <div class="boutons">
+        <button class="btn" data-choix="pierre">🪦 Pierre</button>
+        <button class="btn" data-choix="feuille">🧻 Feuille</button>
+        <button class="btn" data-choix="ciseaux">✂️ Ciseaux</button>
+      </div>
+
+      <div class="resultats" id="zone-resultats">
+        <div class="ligne"><span>Vous :</span><strong id="choix-joueur">–</strong></div>
+        <div class="ligne"><span>Ordinateur :</span><strong id="choix-ordi">–</strong></div>
+        <div class="ligne final" id="texte-final">Cliquez pour jouer !</div>
+      </div>
+
+      <div class="scores">
+        <div class="score">Vous <span id="score-joueur">0</span></div>
+        <div class="score">Égalités <span id="score-egalite">0</span></div>
+        <div class="score">Ordi <span id="score-ordi">0</span></div>
+      </div>
+
+      <div class="actions">
+        <button id="btn-reset" class="btn secondaire">Réinitialiser</button>
+        <button id="btn-regles" class="btn secondaire">Règles</button>
+      </div>
+
+      <div class="regles verre" id="bloc-regles" hidden></div>
+    </section>
+
+    <footer class="footer">
+      <small> </small>
+    </footer>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</body>
+</html>
